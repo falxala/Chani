@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <!--script src="wavesurfer.js"></script-->
+    <!--<script src="https://unpkg.com/wavesurfer.js"></script>-->
+</head>
+
+<body>
+    <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+        <p>Drag one or more files to this <i>drop zone</i>.</p>
+    </div>
+    <div id="waveform"></div>
+    <button onclick="playstop()">play/stop</button>
+
+    <script src="jsgif/LZWEncoder.js"></script>
+    <script src="jsgif/NeuQuant.js"></script>
+    <script src="jsgif/GIFEncoder.js"></script>
+    <script type="text/javascript" src="jsgif/b64.js"></script>
+
+    <div id="anime">
+        <img src="images/1.jpeg" width="200" />
+        <img src="images/2.jpeg" width="200" />
+    </div>
+
+    <p><button onclick="createGIF();">アニメGIFを作成する</button></p>
+
+    <canvas id="canvas" style="display: none;"></canvas>
+
+    <p><img id="anime_gif" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></p>
+
+
+    <script>
+        /* 
+         var encoder;
+ 
+         function createGIF() {
+             //canvasの取得
+             var canvas = document.getElementById('canvas');
+             var ctx = canvas.getContext('2d');
+             //GIFEncoderの初期処理
+             encoder = new GIFEncoder();
+             encoder.setRepeat(0); //繰り返し回数 0=無限ループ
+             encoder.setDelay(500); //1コマあたりの待機秒数（ミリ秒）
+             encoder.start();
+             //画像ファイル一覧を取得
+             frames = document.getElementById('anime').getElementsByTagName('img');
+             //canvasのサイズを1枚目のコマに合わせる
+             canvas.width = frames[0].naturalWidth;
+             canvas.height = frames[0].naturalHeight;
+             //全ての画像をcanvasへ描画
+             for (var frame_no = 0; frame_no < frames.length; frame_no++) {
+                 ctx.drawImage(frames[frame_no], 0, 0);
+                 encoder.addFrame(ctx); //コマ追加
+             }
+             //アニメGIFの生成
+             encoder.finish();
+             document.getElementById('anime_gif').src = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
+         }*/
+
+        function createGIF() {
+            var context = canvas.getContext('2d');
+            var img1 = new Image(), img2 = new Image();
+            img1.src = 'images/1.jpeg';
+            img2.src = 'images/2.jpeg';
+
+            var encoder = new GIFEncoder();
+            encoder.setRepeat(0);
+            encoder.setDelay(100);
+
+            encoder.start();
+
+            encoder.setSize(100, 100);
+
+            context.drawImage(img1, 0, 0, canvas.width, canvas.height);
+            encoder.addFrame(context);
+
+            context.drawImage(img1, 0, 0, canvas.width, canvas.height);
+            encoder.addFrame(context);
+
+            encoder.finish();
+
+            document.getElementById('anime_gif').src = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
+        }
+    </script>
+
+    <!--<script type="text/javascript" src="script.js"></script-->
+</body>
+
+</html>
