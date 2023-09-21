@@ -1,11 +1,24 @@
-#drop_zone {
+#drop_zone{
+  display: flex;
+}
+
+#drop_zone_voice {
   border: 5px solid blue;
   width: 200px;
   height: 100px;
+  text-align: center;
 }
 
-#drop_zone2 {
-  border: 5px solid red;
+#drop_zone_image1 {
+  border: 5px solid green;
   width: 200px;
   height: 100px;
+  text-align: center;
+}
+
+#drop_zone_image2 {
+  border: 5px solid green;
+  width: 200px;
+  height: 100px;
+  text-align: center;
 }

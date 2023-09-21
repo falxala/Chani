@@ -7,7 +7,7 @@ function createGIF() {
     //GIFEncoderの初期処理
     encoder = new GIFEncoder();
     encoder.setRepeat(0); //繰り返し回数 0=無限ループ
-    encoder.setDelay(500); //1コマあたりの待機秒数（ミリ秒）
+    encoder.setDelay(100); //1コマあたりの待機秒数（ミリ秒）
     encoder.start();
     //画像ファイル一覧を取得
     frames = document.getElementById('anime').getElementsByTagName('img');
@@ -15,9 +15,15 @@ function createGIF() {
     canvas.width = frames[0].naturalWidth;
     canvas.height = frames[0].naturalHeight;
     //全ての画像をcanvasへ描画
-    for (var frame_no = 0; frame_no < frames.length; frame_no++) {
-        ctx.drawImage(frames[frame_no], 0, 0);
-        encoder.addFrame(ctx); //コマ追加
+    for (var frame_no = 0; frame_no < lipsyncList.length; frame_no++) {
+        if (lipsyncList[frame_no] == 0) {
+            ctx.drawImage(frames[0], 0, 0);
+            encoder.addFrame(ctx); //コマ追加
+        }
+        if (lipsyncList[frame_no] != 0) {
+            ctx.drawImage(frames[1], 0, 0);
+            encoder.addFrame(ctx); //コマ追加
+        }
     }
     //アニメGIFの生成
     encoder.finish();
@@ -37,7 +43,8 @@ function dropHandler(ev) {
     // 既定の動作で防ぐ（ファイルが開かれないようにする）
     ev.preventDefault();
 
-    console.log(ev.toElement)
+    console.log(ev.toElement);
+
     if (ev.dataTransfer.items) {
         // DataTransferItemList インターフェイスを使用して、ファイルにアクセスする
         [...ev.dataTransfer.items].forEach((item, i) => {
@@ -53,8 +60,12 @@ function dropHandler(ev) {
                     if (file.type.indexOf('audio') != -1)
                         wavesurfer.load(fileUrl);
 
-                    if (file.type.indexOf('image') != -1)
-                        document.getElementById('im1').src = fileUrl;
+                    if (file.type.indexOf('image') != -1) {
+                        if (ev.toElement.getAttribute("name") == "I1")
+                            document.getElementById('im1').src = fileUrl;
+                        if (ev.toElement.getAttribute("name") == "I2")
+                            document.getElementById('im2').src = fileUrl;
+                    }
                 };
                 reader.readAsDataURL(file);
             }
@@ -76,6 +87,7 @@ var wavesurfer = WaveSurfer.create({
     //normalize: true,
 });
 
+var lipsyncList = [];
 
 playstop = () => {
     if (wavesurfer.isPlaying()) {
@@ -92,7 +104,7 @@ playstop = () => {
         console.log(len);
         console.log(sampleRate);
         console.log(duration);
-        var split = sampleRate / 5;//1秒を５分割
+        var split = sampleRate / 10;//1秒を10分割
 
         var peak = 0;
         for (let i = 0; len > i; i++) {
@@ -107,13 +119,14 @@ playstop = () => {
             if (i % split == 0) {
                 var level = Math.abs(buffer[i]);
                 if (level > (peak / 3))
-                    console.log(2)
-                else if (level > (peak / 9))
-                    console.log(1)
+                    lipsyncList.push(2)
+                else if (level > (peak / 30))
+                    lipsyncList.push(1)
                 else
-                    console.log(0);
+                    lipsyncList.push(0)
             }
         }
+        console.log(lipsyncList);
     }
 }
 

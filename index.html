@@ -8,12 +8,18 @@
 </head>
 
 <body>
-    <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-        <p>Drag one or more files to this <i>drop zone</i>.</p>
-    </div>
+    <div id="drop_zone">
+        <div name="V1" id="drop_zone_voice" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+            Voice1
+        </div>
 
-    <div id="drop_zone2" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-        <p>Drag one or more files to this <i>drop zone</i>.</p>
+        <div name="I1" id="drop_zone_image1" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+            Image1
+        </div>
+
+        <div name="I2" id="drop_zone_image2" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+            Image2
+        </div>
     </div>
 
     <div id="waveform"></div>
@@ -26,7 +32,7 @@
 
     <div id="anime">
         <img id="im1" src="images/1.png" width="200" />
-        <img src="images/2.png" width="200" />
+        <img id="im2" src="images/2.png" width="200" />
     </div>
 
     <div>
