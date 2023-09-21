@@ -11,6 +11,7 @@ function dropHandler(ev) {
     // 既定の動作で防ぐ（ファイルが開かれないようにする）
     ev.preventDefault();
 
+    console.log(ev.toElement)
     if (ev.dataTransfer.items) {
         // DataTransferItemList インターフェイスを使用して、ファイルにアクセスする
         [...ev.dataTransfer.items].forEach((item, i) => {
@@ -21,10 +22,15 @@ function dropHandler(ev) {
                 const reader = new FileReader();
                 reader.onload = () => {
                     console.log(file.name);
+                    console.log(file.type);
+                    const fileUrl = URL.createObjectURL(file)
+                    if (file.type.indexOf('audio') != -1)
+                        wavesurfer.load(fileUrl);
+
+                    if (file.type.indexOf('image') != -1)
+                        document.getElementById('im1').src = fileUrl;
                 };
                 reader.readAsDataURL(file);
-                const fileUrl = URL.createObjectURL(file)
-                wavesurfer.load(fileUrl);
             }
         });
     } else {

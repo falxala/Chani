@@ -11,6 +11,11 @@
     <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
         <p>Drag one or more files to this <i>drop zone</i>.</p>
     </div>
+
+    <div id="drop_zone2" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+        <p>Drag one or more files to this <i>drop zone</i>.</p>
+    </div>
+
     <div id="waveform"></div>
     <button onclick="playstop()">play/stop</button>
 
@@ -20,7 +25,7 @@
     <script src="jsgif/GIFEncoder.js"></script>
 
     <div id="anime">
-        <img src="images/1.png" width="200" />
+        <img id="im1" src="images/1.png" width="200" />
         <img src="images/2.png" width="200" />
     </div>
 
@@ -32,9 +37,8 @@
 
     <script>
         var encoder;
-        
-        function createGIF()
-        {
+
+        function createGIF() {
             //canvasの取得
             var canvas = document.getElementById('canvas');
             var ctx = canvas.getContext('2d');
@@ -57,7 +61,7 @@
             encoder.finish();
             document.getElementById('anime_gif').src = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
         }
-        </script>
+    </script>
 
     <script type="text/javascript" src="script.js"></script>
 </body>
