@@ -17,10 +17,14 @@ function createGIF() {
     //全ての画像をcanvasへ描画
     for (var frame_no = 0; frame_no < lipsyncList.length; frame_no++) {
         if (lipsyncList[frame_no] == 0) {
+            ctx.fillStyle = "rgb(0,0,255)";  
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(frames[0], 0, 0);
             encoder.addFrame(ctx); //コマ追加
         }
         if (lipsyncList[frame_no] != 0) {
+            ctx.fillStyle = "rgb(0,0,255)";  
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(frames[1], 0, 0);
             encoder.addFrame(ctx); //コマ追加
         }
@@ -113,7 +117,6 @@ playstop = () => {
             }
         }
         console.log(peak);
-        var median = peak / 2;
 
         for (let i = 0; len > i; i++) {
             if (i % split == 0) {
